@@ -61,7 +61,7 @@ namespace FolderMonitor
         {
             InitializeComponent();
         }
-
+        private bool Loading = true;
         private void frmConfiguration_Load(object sender, EventArgs e)
         {
             NotificationMenu = new ContextMenuStrip();
@@ -90,6 +90,7 @@ namespace FolderMonitor
 
         void configureitem_Click(object sender, EventArgs e)
         {
+            Loading = false;
             Show();
         }
         private void RepopulateList()
@@ -220,6 +221,26 @@ namespace FolderMonitor
             MonitorConfigurationItem mci = changedItem.Tag as MonitorConfigurationItem;
             bool ischecked = e.NewValue == CheckState.Checked;
             mci.Active = ischecked;
+        }
+
+        private void frmConfiguration_Shown(object sender, EventArgs e)
+        {
+            if (Loading) Hide();
+        }
+
+        private void frmConfiguration_VisibleChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void frmConfiguration_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(e.CloseReason==CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                Hide();
+                ni.ShowBalloonTip(5000,"BC Folder Monitor Still running","BASeCamp Folder Monitor is still monitoring folder changes.",ToolTipIcon.Info);
+            }
         }
 
        

@@ -161,7 +161,10 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmConfiguration";
             this.Text = "Folder Monitor Configuration";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmConfiguration_FormClosing);
             this.Load += new System.EventHandler(this.frmConfiguration_Load);
+            this.Shown += new System.EventHandler(this.frmConfiguration_Shown);
+            this.VisibleChanged += new System.EventHandler(this.frmConfiguration_VisibleChanged);
             this.tsEditItems.ResumeLayout(false);
             this.tsEditItems.PerformLayout();
             this.ResumeLayout(false);

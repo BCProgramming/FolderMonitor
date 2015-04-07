@@ -48,8 +48,6 @@ namespace FolderMonitor
             XElement buildelement = new XElement("MonitorItem", new XAttribute("Path", _MonitorPath), new XAttribute("Subdirs", _Subdirectories), new XAttribute("Filter", _Filter), new XAttribute("Active", _Active));
             return buildelement;
         }
-
-
     }
     public class MonitorConfiguration
     {
@@ -80,10 +78,9 @@ namespace FolderMonitor
             ConfigurationElements = new List<MonitorConfigurationItem>();
             XElement RootNode = docSource.Root;
             if (RootNode == null) return;
-            XElement MonitorNode = RootNode.Descendants("Monitor").FirstOrDefault();
-            if (MonitorNode == null) return;
+           
 
-            foreach (XElement MonitorItem in MonitorNode.Descendants("MonitorItem"))
+            foreach (XElement MonitorItem in RootNode.Descendants("MonitorItem"))
             {
                 MonitorConfigurationItem mci = new MonitorConfigurationItem(MonitorItem);
                 ConfigurationElements.Add(mci);

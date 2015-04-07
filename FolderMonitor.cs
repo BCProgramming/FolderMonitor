@@ -35,7 +35,6 @@ namespace FolderMonitor
                 _ChangeType = FileChangeType.Renamed;
                 fse = prea;
             }
-            
         }
         private bool _IsStarted = false;
         private String _FolderPath = null;
@@ -137,8 +136,6 @@ namespace FolderMonitor
         {
             RaiseCreated(e);
         }
-
-
     }
 
     public class MonitorManager:IDisposable
