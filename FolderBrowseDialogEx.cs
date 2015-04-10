@@ -2,6 +2,8 @@
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using Microsoft.WindowsAPICodePack.Shell;
 
 namespace System.Windows.Shell
 {
@@ -220,26 +222,27 @@ namespace System.Windows.Shell
 
         private DialogResult ShowDialogInternal(ref BrowseInfo bi)
         {
-            bi.title = title;
-            bi.displayname = new string('\0', 260);
-            bi.callback = BrowseCallback;
-            bi.flags = (int)BrowseFlags;
+                bi.title = title;
+                bi.displayname = new string('\0', 260);
+                bi.callback = BrowseCallback;
+                bi.flags = (int)BrowseFlags;
 
-            //Free any old pidls
-            if (pidlReturned != IntPtr.Zero)
-                NativeMethods.SHMemFree(pidlReturned);
+                //Free any old pidls
+                if (pidlReturned != IntPtr.Zero)
+                    NativeMethods.SHMemFree(pidlReturned);
 
-            var ret = (pidlReturned = NativeMethods.SHBrowseForFolder(ref bi)) != IntPtr.Zero;
+                var ret = (pidlReturned = NativeMethods.SHBrowseForFolder(ref bi)) != IntPtr.Zero;
 
-            if (ret)
-            {
-                FolderDisplayName = bi.displayname;
-            }
+                if (ret)
+                {
+                    FolderDisplayName = bi.displayname;
+                }
 
-            //Reset the handle
-            handle = IntPtr.Zero;
+                //Reset the handle
+                handle = IntPtr.Zero;
 
-            return ret ? DialogResult.OK : DialogResult.Cancel;
+                return ret ? DialogResult.OK : DialogResult.Cancel;
+            
         }
         public static String DoBrowse(String pTitle, BrowseFlags pFlags, Action<Object, EventArgs> pInitialize = null, Action<Object, BrowseSelChangedEventArgs> pSelChanged = null,
             Action<Object, ValidationFailedEventArgs> pValidationFailure = null)

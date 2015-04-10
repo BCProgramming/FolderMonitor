@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Shell;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 
 namespace FolderMonitor
@@ -22,15 +23,45 @@ namespace FolderMonitor
             InitializeComponent();
         }
 
+        private String SelectFolder(String sDefaultDir = null)
+        {
+
+            if(CommonOpenFileDialog.IsPlatformSupported)
+            {
+                CommonOpenFileDialog sfd = new CommonOpenFileDialog();
+                sfd.IsFolderPicker = true;
+                sfd.AllowNonFileSystemItems=  false;
+
+                if (sDefaultDir != null) sfd.DefaultDirectory = sDefaultDir;
+                if(sfd.ShowDialog(this.Handle)==CommonFileDialogResult.Ok)
+                {
+                    return sfd.FileName;
+                }
+            }
+            else
+            {
+                BrowseFolderDialogEx fbdx = new BrowseFolderDialogEx();
+
+                fbdx.BrowseFlags = BrowseFlags.EditBox | BrowseFlags.ReturnOnlyFSDirs | BrowseFlags.NewDialogStyle;
+                if (!String.IsNullOrEmpty(sDefaultDir))
+                {
+                    fbdx.Initialized += (ob, eargs) =>
+                    {
+                        fbdx.SetSelection(sDefaultDir);
+                    };
+                }
+                if (fbdx.ShowDialog(this) == DialogResult.OK)
+                {
+                    txtPath.Text = fbdx.FolderPath;
+                }
+            }
+            return null;
+        }
+
+
         private void cmdBrowsePath_Click(object sender, EventArgs e)
         {
-            BrowseFolderDialogEx fbdx = new BrowseFolderDialogEx();
-            
-            fbdx.BrowseFlags = BrowseFlags.EditBox | BrowseFlags.ReturnOnlyFSDirs | BrowseFlags.NewDialogStyle;
-            if(fbdx.ShowDialog(this) == DialogResult.OK)
-            {
-                txtPath.Text = fbdx.FolderPath;
-            }
+           
 
             
         }

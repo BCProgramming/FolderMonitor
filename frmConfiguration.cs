@@ -28,8 +28,6 @@ namespace FolderMonitor
             mm.FileChange += mm_FileChange;
             int NumFolders = config.GetItems().Count((f) => f.Active);
             ni.ShowBalloonTip(5000,"BASeCamp Folder Monitor Started","Monitoring " + NumFolders + " Folders.",ToolTipIcon.Info);
-            //ni.ShowBalloonTip(5000, TypeStr + " Detected.", useMessage, ToolTipIcon.Info);
-            
         }
         static String mRenameMessage = "File Rename:\n Old:{0}\nNew:{1}";
         static String mCreatedMessage = "File Created:{0}";
